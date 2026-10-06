@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.build/
+node_modules/
+data/clips/*.json
+models/*.joblib
+results/runs/
+static/vendor/
+static/models/
+*.zip
+.DS_Store
+.env
+.env.*
+!.env.example

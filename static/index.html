@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>PoseLab · Human Activity Recognition</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a href="/" class="brand"
+        ><span class="brand-symbol">P</span>PoseLab<span class="brand-dot"
+          >.</span
+        ></a
+      >
+      <p class="eyebrow side-label">YOUR WORKSPACE</p>
+      <nav aria-label="Main navigation">
+        <button data-tab="live" class="nav-button active">
+          <span>◉</span> Live lab
+        </button>
+        <button data-tab="dataset" class="nav-button">
+          <span>▦</span> Dataset
+        </button>
+        <button data-tab="experiment" class="nav-button">
+          <span>↗</span> Experiment
+        </button>
+        <button data-tab="guide" class="nav-button">
+          <span>≡</span> Project guide
+        </button>
+      </nav>
+      <div class="side-bottom">
+        <div class="status-dot"></div>
+        Runs on your laptop
+        <p>IIIT Dharwad<br />Mini Project II · 2026</p>
+      </div>
+    </aside>
+    <main>
+      <header>
+        <span class="eyebrow">COMPUTER VISION / POSE ESTIMATION</span
+        ><span class="header-tag">6 activities · 33 landmarks</span>
+      </header>
+      <div id="notice" role="status" class="notice hidden"></div>
+      <section id="live" class="page active">
+        <div class="page-heading">
+          <div>
+            <h1>Human activity recognition<span>.</span></h1>
+            <p>
+              Track body landmarks. Recognize movement. Explore the evidence.
+            </p>
+          </div>
+          <button id="export-session" class="secondary">
+            ↓ Export session
+          </button>
+        </div>
+        <div class="live-grid">
+          <div>
+            <div class="stage-head">
+              <div>
+                <span class="status-dot" id="stream-dot"></span
+                ><span id="source-label">Ready to begin</span>
+              </div>
+              <span id="sample-rate">10 Hz target</span>
+            </div>
+            <div class="stage" id="stage">
+              <video id="video" playsinline muted></video
+              ><canvas id="canvas" width="900" height="650"></canvas>
+              <div id="stage-empty">
+                <div class="empty-icon">◉</div>
+                <h2>Your movement is the input</h2>
+                <p>
+                  Start your camera, open a video,<br />or explore a simulated
+                  skeleton.
+                </p>
+              </div>
+              <div id="source-badge" class="source-badge hidden"></div>
+              <div class="stage-footer">
+                <span>FULL BODY · SINGLE PERSON</span
+                ><span id="latency">PoseLab / Local</span>
+              </div>
+            </div>
+            <div class="source-controls">
+              <button id="camera" class="primary">Start camera</button
+              ><label class="button secondary" for="video-file"
+                >Open video<input
+                  id="video-file"
+                  type="file"
+                  accept="video/*"
+                  hidden /></label
+              ><button id="stop" class="secondary" disabled>Stop</button>
+              <div class="demo-controls">
+                <select
+                  id="demo-label"
+                  aria-label="Simulation activity"
+                ></select
+                ><button id="demo" class="text-button">
+                  Try simulation ↗
+                </button>
+              </div>
+            </div>
+            <p class="helper">
+              Video stays in your browser. Only body coordinates go to the local
+              app. Simulation is for software demonstration.
+            </p>
+            <div class="record-panel">
+              <div>
+                <h3>Build your dataset</h3>
+                <p>Capture an 8-second landmark clip with a known activity.</p>
+              </div>
+              <div class="record-fields">
+                <label
+                  >Participant ID<input
+                    id="subject"
+                    value="P01"
+                    maxlength="32"
+                    placeholder="P01" /></label
+                ><label
+                  >Performed activity<select id="record-label"></select></label
+                ><button id="record" class="primary" disabled>
+                  Record clip
+                </button>
+              </div>
+              <label class="consent"
+                ><input id="consent" type="checkbox" />The participant agrees to
+                save their body landmarks for this project.</label
+              >
+              <p id="record-state" aria-live="polite">
+                Use the same ID for every recording of the same person.
+              </p>
+            </div>
+          </div>
+          <div class="insights">
+            <div class="result-panel">
+              <span class="eyebrow">CURRENT ACTIVITY</span>
+              <h2 id="activity">Waiting</h2>
+              <p id="reason">Start a source to see a prediction.</p>
+              <div class="engine-choice">
+                <label for="engine">Recognition method</label
+                ><select id="engine">
+                  <option value="rules">Rule baseline · ready now</option>
+                  <option value="trained" disabled>
+                    Trained classifier · collect data first
+                  </option>
+                </select>
+              </div>
+              <div class="quality-line">
+                <span>Landmark visibility</span><strong id="quality">—</strong>
+              </div>
+              <div class="meter"><i id="quality-bar"></i></div>
+              <div class="quality-line">
+                <span>Model vote score</span><strong id="confidence">—</strong>
+              </div>
+              <p class="helper">
+                A vote score is not a calibrated probability. The rule baseline
+                has no confidence score.
+              </p>
+            </div>
+            <div class="rep-panel">
+              <div class="section-head">
+                <h3>Completed repetitions</h3>
+                <button id="reset-reps" class="text-button">Reset</button>
+              </div>
+              <div class="rep-grid">
+                <div>
+                  <strong id="squat-count">0</strong><span>Squats</span>
+                </div>
+                <div>
+                  <strong id="jack-count">0</strong><span>Jumping jacks</span>
+                </div>
+              </div>
+              <p class="helper">
+                Counts require an accepted activity and a complete movement
+                cycle.
+              </p>
+            </div>
+            <div class="geometry-panel">
+              <h3>Pose measurements</h3>
+              <div class="measurement">
+                <span>Left knee angle</span><strong id="left-knee">—</strong>
+              </div>
+              <div class="measurement">
+                <span>Right knee angle</span><strong id="right-knee">—</strong>
+              </div>
+              <div class="measurement">
+                <span>Movement window</span><strong>2.0 s</strong>
+              </div>
+              <p class="helper">
+                Angles are 2D projections. Camera position affects the
+                measurements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="dataset" class="page">
+        <div class="page-heading">
+          <div>
+            <h1>Your movement dataset<span>.</span></h1>
+            <p>Keep every recording of one participant in the same split.</p>
+          </div>
+          <button id="refresh-data" class="secondary">Refresh</button>
+        </div>
+        <div class="intro-strip">
+          <strong id="clip-total">0 clips</strong
+          ><span
+            >Recommended collection: 6 participants × 6 activities × 5 clips =
+            180 clips.<br />Three participants is the software minimum and a
+            small pilot study.</span
+          >
+        </div>
+        <div class="table-wrap">
+          <table id="dataset-table">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+          <p id="dataset-empty">
+            No recordings yet. Open Live lab, start a camera or video, and
+            record labeled clips.
+          </p>
+        </div>
+        <div class="protocol">
+          <h2>Make each recording useful</h2>
+          <ol>
+            <li>
+              Keep the entire body in view, with good lighting and a fixed
+              camera.
+            </li>
+            <li>
+              Use front or slight diagonal views. Include a diagonal view for
+              seated poses and squats.
+            </li>
+            <li>
+              Record one activity per clip, at a comfortable pace. Begin moving
+              before recording.
+            </li>
+            <li>
+              Repeat across two sessions. Keep the participant ID unchanged.
+            </li>
+            <li>
+              Reserve validation and test participants before collecting your
+              final dataset.
+            </li>
+          </ol>
+          <p>
+            Raw video is not saved by this app. Landmark files remain in
+            <code>data/clips</code> on your computer.
+          </p>
+        </div>
+      </section>
+      <section id="experiment" class="page">
+        <div class="page-heading">
+          <div>
+            <h1>Measure what works<span>.</span></h1>
+            <p>
+              Compare pose features with pose and motion features on unseen
+              participants.
+            </p>
+          </div>
+        </div>
+        <div class="experiment-layout">
+          <div class="train-panel">
+            <h2>Train and evaluate</h2>
+            <p>
+              Use participant IDs from your dataset. All remaining participants
+              form the training set. Every split needs all six activities.
+            </p>
+            <label
+              >Validation participants<input
+                id="validation-subjects"
+                placeholder="P05"
+                autocomplete="off" /></label
+            ><label
+              >Test participants<input
+                id="test-subjects"
+                placeholder="P06"
+                autocomplete="off"
+            /></label>
+            <p class="helper">
+              Separate multiple IDs with commas. Threshold selection uses
+              validation data. Final metrics use test data.
+            </p>
+            <button id="train" class="primary">Run experiment</button>
+            <p id="train-state" aria-live="polite">
+              No trained activity classifier yet.
+            </p>
+            <p class="helper">
+              Freeze the test group. Repeatedly adjusting the method after
+              seeing test results weakens the evaluation.
+            </p>
+          </div>
+          <div class="experiment-results">
+            <div class="section-head">
+              <h2>Held-out results</h2>
+              <a
+                id="download-results"
+                href="/api/results/download"
+                class="hidden"
+                >Download JSON ↓</a
+              >
+            </div>
+            <div id="results-empty" class="empty-results">
+              <span>↗</span>
+              <h3>Real evidence starts with real data</h3>
+              <p>
+                Accuracy, F1 and the confusion matrix appear after an
+                experiment. Simulated skeletons never enter this dataset.
+              </p>
+            </div>
+            <div id="results-content" class="hidden">
+              <p id="run-info"></p>
+              <div class="table-wrap"><table id="metrics-table"></table></div>
+              <h3>Temporal classifier confusion matrix</h3>
+              <p class="helper">
+                Rows: actual activity. Columns: prediction. Unknowns count as
+                errors in overall accuracy.
+              </p>
+              <div class="table-wrap"><table id="confusion-table"></table></div>
+              <h3>Most used motion features</h3>
+              <div id="importance"></div>
+              <p class="helper">
+                Feature importance describes this fitted forest. It does not
+                establish causation. Smoothing and rep counts need separate
+                video measurements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="guide" class="page">
+        <div class="page-heading">
+          <div>
+            <h1>Understand your project<span>.</span></h1>
+            <p>
+              A small, explainable pipeline with a testable research question.
+            </p>
+          </div>
+        </div>
+        <div class="guide-body">
+          <h2>The question</h2>
+          <p>
+            Do temporal pose features improve recognition of six activities
+            compared with mean pose features, when the test participant is
+            unseen?
+          </p>
+          <h2>The pipeline</h2>
+          <div class="pipeline">
+            <span>Camera or video</span><b>→</b><span>33 landmarks</span><b>→</b
+            ><span>18 pose features</span><b>→</b><span>2-second window</span
+            ><b>→</b><span>Random Forest</span>
+          </div>
+          <h2>What we build</h2>
+          <p>
+            Aspect-corrected pose geometry, temporal statistics, a labeled
+            collection tool, participant-separated evaluation, visibility
+            rejection, label confirmation, and repetition counting. The pose
+            detector is Google's pretrained MediaPipe model.
+          </p>
+          <h2>Six activities</h2>
+          <p>
+            Standing, sitting, marching in place, squats, jumping jacks, and
+            one-hand waving. This is a controlled single-person study. It does
+            not recognize every everyday action.
+          </p>
+          <h2>What to explain in a viva</h2>
+          <p>
+            Pose estimation locates body joints. Activity recognition assigns a
+            label to motion over time. The pretrained detector solves the first
+            task. Our features and trained classifier solve the second.
+          </p>
+          <h2>Research foundations</h2>
+          <p>
+            <a
+              href="https://arxiv.org/abs/2006.10204"
+              target="_blank"
+              rel="noreferrer"
+              >Bazarevsky et al. · BlazePose (2020)</a
+            ><br /><a
+              href="https://doi.org/10.3390/s23010363"
+              target="_blank"
+              rel="noreferrer"
+              >Arrowsmith et al. · Physiotherapy Exercise Classification
+              (2023)</a
+            >
+          </p>
+          <h2>Limitations</h2>
+          <p>
+            Single camera and person, projected angles, occlusion, camera-view
+            sensitivity, small local dataset, and a two-second recognition
+            delay. Low confidence rejection cannot guarantee recognition of
+            unseen activity types. Repetition counts are demonstrative, not
+            medical assessments.
+          </p>
+        </div>
+      </section>
+      <footer>
+        PoseLab <span>Human Activity Recognition using Pose Estimation</span>
+      </footer>
+    </main>
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>
