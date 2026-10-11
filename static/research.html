@@ -3,40 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="dark" />
     <title>PoseLab · Research comparison</title>
     <link rel="stylesheet" href="/static/research.css" />
     <script src="/static/research.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to results</a>
-    <aside class="sidebar">
-      <a href="/" class="brand"
-        ><span class="brand-symbol">P</span>PoseLab<span class="brand-dot"
-          >.</span
-        ></a
-      >
-      <p class="eyebrow side-label">RESEARCH WORKSPACE</p>
-      <nav aria-label="Research navigation">
-        <a class="nav-link active" href="#main"
-          ><span aria-hidden="true">↗</span> Measured comparison</a
-        >
-        <a class="nav-link" href="#all-results"
-          ><span aria-hidden="true">▦</span> Every result</a
-        >
-        <a class="nav-link" href="#pose-example"
-          ><span aria-hidden="true">◎</span> Pose example</a
-        >
-        <a class="nav-link" href="#protocol"
-          ><span aria-hidden="true">≡</span> Experiment record</a
-        >
-      </nav>
-      <a class="back-link" href="/lab">← Open earlier activity lab</a>
-      <div class="side-bottom">
-        <span class="status-dot"></span> Evidence before claims
-        <p>IIIT Dharwad<br />Mini Project II · 2026</p>
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand-group">
+          <a href="/" class="brand" aria-label="PoseLab home"><span class="brand-symbol" aria-hidden="true">P</span>PoseLab</a>
+          <span class="workspace-divider" aria-hidden="true">/</span>
+          <span class="workspace-tag">Research</span>
+        </div>
+        <nav class="main-nav" aria-label="Research navigation">
+          <a class="nav-link active" href="#main" aria-current="page">Overview</a>
+          <a class="nav-link" href="#all-results">Results</a>
+          <a class="nav-link" href="#pose-example">Pose viewer</a>
+          <a class="nav-link" href="#protocol">Protocol</a>
+        </nav>
+        <div class="header-actions">
+          <a class="back-link" href="/lab">Activity lab <span aria-hidden="true">↗</span></a>
+          <a id="download-results" class="button action" href="/static/research-results.json" download aria-disabled="true"><span aria-hidden="true">↓</span> Download results</a>
+        </div>
       </div>
-    </aside>
+    </header>
     <main id="main">
       <header class="topbar">
         <span class="eyebrow">HUMAN ACTIVITY RECOGNITION / RESEARCH</span
@@ -44,28 +36,21 @@
       </header>
       <section class="intro" aria-labelledby="page-title">
         <div>
-          <p class="eyebrow overline">POSELAB · ROBUSTNESS STUDY</p>
+          <p class="eyebrow overline">POSELAB / ROBUSTNESS STUDY</p>
           <h1 id="page-title">Measured comparison<span>.</span></h1>
           <p class="intro-copy">
             What happens when body joints disappear or become noisy?
           </p>
         </div>
-        <a
-          id="download-results"
-          class="button secondary"
-          href="/static/research-results.json"
-          download
-          aria-disabled="true"
-          >↓ Download results</a
-        >
       </section>
       <div id="load-status" class="notice" role="status" aria-live="polite">
         Waiting for a completed experiment. This page will display measured
         results when they are available.
       </div>
       <section class="question-card" aria-label="Research question">
-        <div class="question-icon" aria-hidden="true">?</div>
-        <div>
+        <div class="question-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v6m-7-4 7 2 7-2m-7 4-5 6m5-6 5 6"/><circle cx="5" cy="10" r="1"/><circle cx="19" cy="10" r="1"/></svg></div>
+        <div class="question-copy">
+          <p class="eyebrow">THE RESEARCH QUESTION</p>
           <h2>
             Can pose recovery and prediction rejection make an existing model
             more reliable?
@@ -76,6 +61,7 @@
             to recorded skeleton data.
           </p>
         </div>
+        <a class="button primary" href="#comparison">Explore results <span aria-hidden="true">→</span></a>
       </section>
       <section id="comparison" aria-labelledby="comparison-title">
         <div class="section-heading">

@@ -309,7 +309,7 @@
           x2: x,
           y1: 12,
           y2: height - 29,
-          stroke: "#e9eee8",
+          stroke: "var(--chart-grid)",
           "stroke-width": 1,
         }),
       );
@@ -319,7 +319,7 @@
           {
             x,
             y: height - 10,
-            fill: "#6c7d76",
+            fill: "var(--muted)",
             "font-size": 10,
             "text-anchor": "middle",
           },
@@ -340,7 +340,7 @@
       const title = svgElement("text", {
         x: left - 13,
         y: y + 17 - (Math.min(lines.length, 3) - 1) * 6,
-        fill: "#425b50",
+        fill: "var(--muted)",
         "font-size": 11,
         "text-anchor": "end",
       });
@@ -354,8 +354,8 @@
       title.append(svgElement("title", {}, label));
       svg.append(title);
       for (const [offset, id, color] of [
-        [0, "baseline", "#829da9"],
-        [24, "recovery", "#2d6a56"],
+        [0, "baseline", "var(--baseline)"],
+        [24, "recovery", "var(--combined)"],
       ]) {
         const value = result(condition, id)?.[metric];
         if (isRate(value))
@@ -375,7 +375,7 @@
             {
               x: left + (isRate(value) ? value * plotWidth : 0) + 7,
               y: y + offset + 12,
-              fill: "#364d42",
+              fill: "var(--ink)",
               "font-size": 11,
             },
             percentage(value),
@@ -511,9 +511,9 @@
             fill:
               id === "pose-after" &&
               !pointCoordinates(activeExample.before[frame]?.[index])
-                ? "#d78044"
+                ? "var(--imputed)"
                 : color,
-            stroke: "#fff",
+            stroke: "var(--pose-outline)",
             "stroke-width": 1.2,
           }),
         );
@@ -524,7 +524,7 @@
           {
             x: 220,
             y: 170,
-            fill: "#6c7d76",
+            fill: "var(--muted)",
             "font-size": 12,
             "text-anchor": "middle",
           },
@@ -535,8 +535,8 @@
 
   function drawExample() {
     if (!activeExample) return;
-    drawSkeleton("pose-before", activeExample.before[frame], "#7a939f");
-    drawSkeleton("pose-after", activeExample.after[frame], "#2d6a56");
+    drawSkeleton("pose-before", activeExample.before[frame], "var(--baseline)");
+    drawSkeleton("pose-after", activeExample.after[frame], "var(--combined)");
     byId("example-frame").value = String(frame);
     byId("frame-label").textContent = `Frame ${frame + 1} / ${frameCount()}`;
     const before = activeExample.prediction_baseline;
@@ -653,7 +653,7 @@
             x2: x,
             y1: 0,
             y2: 340,
-            stroke: "#e6ece2",
+            stroke: "var(--pose-grid)",
             "stroke-width": 1,
           }),
         );
@@ -664,7 +664,7 @@
             x2: 440,
             y1: y,
             y2: y,
-            stroke: "#e6ece2",
+            stroke: "var(--pose-grid)",
             "stroke-width": 1,
           }),
         );
@@ -751,6 +751,30 @@
       console.error("Research results could not be loaded", error);
     }
   }
+
+  const navLinks = [...document.querySelectorAll(".main-nav .nav-link")];
+  const navSections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+  function updateNavigation() {
+    const anchorOffset = document.querySelector(".app-header").getBoundingClientRect().height + 45;
+    let activeIndex = 0;
+    navSections.forEach((section, index) => {
+      if (section && section.getBoundingClientRect().top <= anchorOffset) activeIndex = index;
+    });
+    navLinks.forEach((link, index) => {
+      link.classList.toggle("active", index === activeIndex);
+      if (index === activeIndex) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+  let navigationFrame = null;
+  window.addEventListener("scroll", () => {
+    if (navigationFrame !== null) return;
+    navigationFrame = requestAnimationFrame(() => {
+      updateNavigation();
+      navigationFrame = null;
+    });
+  }, { passive: true });
+  updateNavigation();
 
   byId("condition-select").addEventListener("change", renderSelectedCondition);
   document.querySelectorAll("[data-metric]").forEach((button) =>
