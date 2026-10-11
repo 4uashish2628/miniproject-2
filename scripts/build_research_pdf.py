@@ -119,7 +119,7 @@ def build(data, output, digest):
     slate = colors.HexColor("#52647A")
     c = canvas.Canvas(str(output), pagesize=A4, pageCompression=1)
     c.setTitle("PoseLab - Measured Human Activity Recognition Research Results")
-    c.setAuthor("PoseLab Mini Project-II")
+    c.setAuthor("23bcs019, 23bcs007, 23bcs021 | Mentor: SUNIL CK")
     c.setSubject(
         "Real Kinetics-skeleton pilot; pretrained CoST-GCN* and bounded causal pose recovery"
     )
@@ -252,6 +252,11 @@ def build(data, output, digest):
         1,
         "Project and method",
         "Human Activity Recognition\nwith Missing-Joint Recovery",
+    )
+    y = paragraph(
+        "<b>Team roll numbers:</b> 23bcs019, 23bcs007, 23bcs021<br/>"
+        "<b>Mentor:</b> SUNIL CK",
+        y,
     )
     y = paragraph(
         "<b>A measured extension of a published skeleton-action model.</b> We investigate whether limited repair of temporarily missing pose joints helps an unchanged pretrained classifier, and whether calibrated rejection makes accepted predictions more reliable.",

@@ -1,5 +1,9 @@
 # Research viva guide
 
+**Team roll numbers:** 23bcs019, 23bcs007, 23bcs021
+
+**Mentor:** SUNIL CK
+
 ## A short explanation of the project
 
 We use an existing pretrained graph neural network to recognize human actions from body-joint sequences. We investigate what happens when a pose detector temporarily loses joints. Our extension repairs short gaps using earlier observations and can reject predictions when evidence is insufficient. We compare the original model and three ablations on identical real pose sequences with controlled corruption.

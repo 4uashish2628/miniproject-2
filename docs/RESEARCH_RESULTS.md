@@ -1,5 +1,9 @@
 # Measured research results
 
+**Team roll numbers:** 23bcs019, 23bcs007, 23bcs021
+
+**Mentor:** SUNIL CK
+
 Generated from `results/research/comparison.json`, measured at **2026-10-11T23:17:40.737167+05:30**. Source SHA256: `346808497b94c5ee389f38629a4e46429b4895611430b73fae048e29643986b9`.
 
 The pilot uses **200 calibration clips** and **400 separate test clips** from real Kinetics-skeleton (ST-GCN OpenPose extraction) data. The classifier retains **400 output classes**; **251 true classes** occur in this test subset. **2 empty clips** are retained.

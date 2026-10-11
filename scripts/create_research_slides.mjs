@@ -78,12 +78,14 @@ function node(s, label, x, y, w, h, emphasis = false) {
 }
 function connect(s, a, b) { s.shapes.connect(a, b, { kind: 'straight', fromSide: 'right', toSide: 'left', line: { fill: C.green, width: 2.5, style: 'solid' }, tail: { type: 'triangle', width: 'sm', length: 'sm' } }); }
 
-let s = slide('', `Mini Project II, seventh semester, August to November 2026. Add the actual team members, roll numbers and supervisor before institutional submission. We evaluate an extension around the authors' pretrained graph model. Measured results generated ${result.generated_at}.\n${citations.paper}\n${citations.repo}`, true);
+let s = slide('', `Mini Project II, seventh semester, August to November 2026. Team roll numbers: 23bcs019, 23bcs007, 23bcs021. Mentor: SUNIL CK. We evaluate an extension around the authors' pretrained graph model. Measured results generated ${result.generated_at}.\n${citations.paper}\n${citations.repo}`, true);
 text(s, 'IIIT DHARWAD', 72, 65, 1000, 40, 24, C.lime, true);
 text(s, 'PoseLab', 72, 167, 1120, 95, 76, '#FFFFFF', true);
 text(s, 'Human activity recognition\nwith missing-joint recovery', 72, 291, 1120, 148, 48, '#FFFFFF');
-text(s, 'A study using an existing Q1 paper and its public model', 72, 489, 1110, 75, 28, '#D9E4DE');
-text(s, `Mini Project II  /  Aug–Nov 2026\nMeasured experiment: ${date}`, 72, 584, 1080, 65, 24, C.lime);
+text(s, 'A study using an existing Q1 paper and its public model', 72, 451, 1110, 40, 28, '#D9E4DE');
+text(s, 'Team: 23bcs019, 23bcs007, 23bcs021', 72, 506, 1110, 36, 26, '#FFFFFF');
+text(s, 'Mentor: SUNIL CK', 72, 548, 1110, 36, 26, '#FFFFFF');
+text(s, `Mini Project II  /  Aug–Nov 2026\nMeasured experiment: ${date}`, 72, 602, 1080, 58, 23, C.lime);
 
 s = slide('Research foundation and project question', `${citations.paper}\n${citations.repo}\n${citations.q1}\nThe paper targets efficient continual action recognition. Our research question concerns tolerance to missing or noisy pose joints. We add and evaluate a small causal recovery component without retraining the classifier. We do not claim that joint holding is a new algorithm or that this sample reproduces the paper's full benchmark. The ranking refers to the journal and database year, not an arXiv page.`);
 text(s, 'Continual spatio-temporal graph\nconvolutional networks', 72, 160, 1120, 103, 37, C.green, true);

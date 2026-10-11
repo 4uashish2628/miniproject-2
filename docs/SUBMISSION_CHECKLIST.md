@@ -4,7 +4,7 @@ The supplied institute guidelines refer to Table I and a common project template
 
 - Confirm the title and scope with the faculty supervisor and complete project registration.
 - Form the normally required three-student group. Seek the Head of Department's permission if using a smaller group.
-- Add actual names, roll numbers, department and supervisor to the report and slides.
+- Team roll numbers recorded: **23bcs019, 23bcs007, 23bcs021**. Mentor recorded: **SUNIL CK**. Add actual student names and the confirmed department to the institute-format report and slides.
 - Obtain Table I and the institute's common project report template. Adapt the editable report accordingly.
 - Complete the consented recordings, real training and held-out participant evaluation.
 - Add actual dataset counts, confusion matrix, metrics, screenshots and limitations to the report. Keep source citations and distinguish reused software from project contributions.

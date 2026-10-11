@@ -3,6 +3,10 @@
 **Human Activity Recognition using Pose Estimation**  
 Mini Project II · Indian Institute of Information Technology Dharwad · Aug–Nov 2026
 
+**Team roll numbers:** 23bcs019, 23bcs007, 23bcs021
+
+**Mentor:** SUNIL CK
+
 The primary project is now **Robust Human Activity Recognition using Pose Estimation and Missing-Joint Recovery**, an experimental extension of **Continual Spatio-Temporal Graph Convolutional Networks**, *Pattern Recognition* 140 (2023), 109528, by Hedegaard, Heidari and Iosifidis. [Published paper](https://doi.org/10.1016/j.patcog.2023.109528) · [Official implementation](https://github.com/LukasHedegaard/continual-skeletons) · [Q1 journal evidence: SCImago/SJR 2024](https://www.scimagojr.com/journalvalue.php?area=1700&category=1707&ord=desc&order=item).
 
 We reuse the authors' 400-class Kinetics checkpoint and original graph-network definitions. Our extension adds bounded causal recovery of missing pose joints, a conservative person-slot reset, and calibration-based rejection. The comparison uses **600 real public Kinetics-skeleton clips: 200 for calibration and 400 for extension evaluation**, with identical controlled corruptions for every variant. This is a pilot using the dataset's official validation partition, not a reproduction of the full paper's benchmark or a new state-of-the-art claim.
@@ -201,4 +205,4 @@ Only run the server on your own machine. The launcher binds to loopback. Never l
 
 ## Institute requirements still needing your input
 
-Your message did not include Table I, the common report template, student details or supervisor details. The supplied report is a complete **implementation/report draft with pending empirical results**, not a certified submission. Fill in those details, adapt the layout to the common template, and send the soft copy at least **three working days before each presentation**, as your guidelines require. The submission checklist documents the remaining steps without inventing deadlines or approvals.
+Team roll numbers and mentor have been added to the research report, presentation and dashboard. Student names, Table I and the common report template have not been supplied. The research report includes measured results; adapt it to the institute template and complete the remaining identity fields before submission. Send the soft copy at least **three working days before each presentation**, as your guidelines require. The submission checklist records the remaining steps without inventing deadlines or approvals.

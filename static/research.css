@@ -358,6 +358,21 @@ p {
   opacity: .45;
 }
 
+.project-team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  color: var(--ink);
+  font-size: 12px;
+  margin: 0 0 20px;
+}
+.project-team p {
+  margin: 0;
+}
+.team-label {
+  color: var(--muted);
+  margin-right: 10px;
+}
 .notice {
   font-size: 12px;
   color: #d9b798;

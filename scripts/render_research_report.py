@@ -18,6 +18,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TEAM_ROLL_NUMBERS = "23bcs019, 23bcs007, 23bcs021"
+MENTOR = "SUNIL CK"
 PAPER = "https://doi.org/10.1016/j.patcog.2023.109528"
 REPOSITORY = "https://github.com/LukasHedegaard/continual-skeletons"
 VARIANT_IDS = ("baseline", "recovery", "rejection", "combined")
@@ -232,6 +234,7 @@ def markdown_results(payload, source_hash):
     names = {v["id"]: v["label"] for v in payload["variants"]}
     output = [
         "# Measured research results\n",
+        f"**Team roll numbers:** {TEAM_ROLL_NUMBERS}\n\n**Mentor:** {MENTOR}\n",
         f"Generated from `results/research/comparison.json`, measured at **{payload['generated_at']}**. Source SHA256: `{source_hash}`.\n",
         f"The pilot uses **{protocol['calibration_count']} calibration clips** and **{protocol['test_count']} separate test clips** from real {protocol['dataset']} data. The classifier retains **{protocol['class_count']} output classes**; **{protocol['classes_present']} true classes** occur in this test subset. **{protocol['empty_clips_retained']} empty clips** are retained.\n",
         f"Base paper: [Continual Spatio-Temporal Graph Convolutional Networks]({PAPER}), *Pattern Recognition* 140 (2023), 109528. [Authors' code]({REPOSITORY}).\n",
@@ -295,6 +298,10 @@ def markdown_viva(payload):
     config = payload["calibration"]["recovery"]
     settings = payload["calibration"]
     return f"""# Research viva guide
+
+**Team roll numbers:** {TEAM_ROLL_NUMBERS}
+
+**Mentor:** {MENTOR}
 
 ## A short explanation of the project
 
@@ -398,7 +405,7 @@ def render_html(payload, output, source_hash):
 <style>
 :root{{--ink:#172033;--muted:#586779;--line:#dce3eb;--purple:#6d28d9}}*{{box-sizing:border-box}}body{{margin:0;background:#f3f6fa;color:var(--ink);font:16px/1.6 system-ui,-apple-system,sans-serif}}main{{max-width:1240px;margin:auto;padding:48px 28px 72px}}header{{background:#172033;color:white;padding:40px;border-radius:22px}}.eyebrow{{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;font-weight:750}}h1{{font-size:clamp(30px,4vw,48px);line-height:1.12;max-width:900px;margin:16px 0}}header p{{max-width:880px;color:#d8e1ec}}.meta{{font-size:13px;color:var(--muted)}}.cards{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}}.card,section{{background:white;border:1px solid var(--line);border-radius:16px}}.card{{padding:20px}}.card strong{{display:block;font-size:28px;line-height:1.2;margin:10px 0;color:var(--purple)}}.card span{{font-size:13px;color:var(--muted)}}section{{margin-top:22px;padding:28px}}h2{{font-size:24px;line-height:1.3;margin:0 0 12px}}h3{{margin-top:24px}}p{{margin:10px 0}}img{{display:block;width:100%;height:auto;margin:18px 0}}.scroll{{overflow-x:auto}}table{{border-collapse:collapse;width:100%;font-size:13px;line-height:1.5}}th,td{{padding:11px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}}th:first-child,td:first-child{{text-align:left}}thead th{{color:#4b5563;background:#f7f9fc;font-size:12px}}tbody th{{text-align:left;min-width:175px;max-width:245px}}td:nth-child(2){{text-align:left}}.up{{color:#116d50;font-weight:750}}.down{{color:#b42318;font-weight:750}}.neutral{{color:#475569;font-weight:750}}li{{margin:9px 0}}a{{color:#6d28d9}}pre{{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f9fc;padding:18px;border-radius:10px;font-size:12px}}summary{{cursor:pointer;font-weight:650;margin:12px 0}}.note{{border-left:4px solid #a78bfa;padding:12px 18px;background:#f5f3ff;border-radius:0 8px 8px 0}}footer{{font-size:12px;overflow-wrap:anywhere;margin-top:24px;color:var(--muted)}}@media(max-width:760px){{main{{padding:20px 12px}}header,section{{padding:22px}}.cards{{grid-template-columns:repeat(2,1fr)}}}}@media print{{body{{background:white}}main{{padding:0}}header{{border-radius:0}}section{{break-inside:avoid}}.scroll{{overflow:visible}}table{{font-size:10px}}}}
 </style></head><body><main>
-<header><div class="eyebrow">PoseLab / Mini Project-II / Measured pilot</div><h1>Can short-gap pose recovery improve activity recognition?</h1><p>A fixed pretrained CoST-GCN* classifier, real public pose sequences, and a controlled comparison that includes gains, regressions and rejected predictions.</p><p>Measured at {escaped(payload['generated_at'])}. No example scores or simulated activity labels.</p></header>
+<header><div class="eyebrow">PoseLab / Mini Project-II / Measured pilot</div><h1>Can short-gap pose recovery improve activity recognition?</h1><p>A fixed pretrained CoST-GCN* classifier, real public pose sequences, and a controlled comparison that includes gains, regressions and rejected predictions.</p><p><strong>Team roll numbers:</strong> {escaped(TEAM_ROLL_NUMBERS)}<br><strong>Mentor:</strong> {escaped(MENTOR)}</p><p>Measured at {escaped(payload['generated_at'])}. No example scores or simulated activity labels.</p></header>
 <div class="cards"><div class="card"><span>Disjoint calibration / test</span><strong>{protocol['calibration_count']} / {protocol['test_count']}</strong><span>Real clips from upstream validation</span></div><div class="card"><span>Original model · original poses</span><strong>{pct(baseline_clean)}</strong><span>All-input top-1 accuracy</span></div><div class="card"><span>Short joint gaps · recovery difference</span><strong>{pp(conditions['burst_missing']['paired_recovery']['accuracy_gain'])}</strong><span>Percentage points, paired clips</span></div><div class="card"><span>Test classes / classifier outputs</span><strong>{protocol['classes_present']} / {protocol['class_count']}</strong><span>Full output head retained</span></div></div>
 <section><h2>The measured result</h2><ul>{brief}</ul><p class="note">Added joint masks and coordinate noise are synthetic stress conditions applied to <strong>real pose data</strong>. These results do not validate physical camera occlusion or a new webcam classifier.</p><img src="{embed('accuracy_comparison.png')}" alt="Accuracy chart for all five conditions and four variants"></section>
 <section><h2>Every condition, every variant</h2><p>All-input accuracy and macro-F1 count abstentions as errors. Accepted accuracy describes only clips receiving predictions; coverage shows how many clips remain. Macro-F1 averages the {protocol['classes_present']} true classes present in this test subset.</p><div class="scroll"><table><thead><tr><th>Condition</th><th>Variant</th><th>All-input accuracy</th><th>Macro-F1</th><th>Accepted accuracy</th><th>Coverage</th><th>ms / clip</th></tr></thead><tbody>{''.join(table)}</tbody></table></div><p class="meta">{escaped(protocol['timing_scope'])}</p></section>
