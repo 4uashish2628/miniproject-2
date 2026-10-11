@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "clip_vs_continual_max_abs": 2.86102294921875e-06,
+  "clip_vs_step_max_abs": 4.76837158203125e-06,
+  "atol": 0.0005,
+  "classes": 400,
+  "input_shape": [
+    1,
+    3,
+    300,
+    18,
+    2
+  ],
+  "cpu_vs_experiment_device_max_abs": 7.62939453125e-06
+}

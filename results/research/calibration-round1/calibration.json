@@ -1,0 +1,48 @@
+{
+  "selected_candidate": "conservative_5",
+  "recovery": {
+    "enabled": true,
+    "min_confidence": 0.1,
+    "max_gap_frames": 5,
+    "alpha": 0.85,
+    "beta": 0.2,
+    "confidence_decay": 0.75,
+    "max_speed": 0.08,
+    "max_displacement": 0.2,
+    "identity_jump_threshold": 0.15
+  },
+  "calibration_scores": {
+    "hold_5": [
+      0.29,
+      0.175,
+      0.21
+    ],
+    "motion_5": [
+      0.285,
+      0.155,
+      0.195
+    ],
+    "motion_10": [
+      0.28,
+      0.15,
+      0.215
+    ],
+    "conservative_5": [
+      0.3,
+      0.16,
+      0.22
+    ]
+  },
+  "calibration_means": {
+    "hold_5": 0.22499999999999998,
+    "motion_5": 0.21166666666666667,
+    "motion_10": 0.215,
+    "conservative_5": 0.22666666666666666
+  },
+  "baseline_threshold": 0.08,
+  "recovery_threshold": 0.085,
+  "design_sha256": "e0a305c35fdc98d94440e995c486ddc0a5f927f9243fdb5d046ef3287728625f",
+  "checkpoint_sha256": "bec5c9563cc017a6e4739c2255ad76b24a046e445210b8fc965816435229452f",
+  "upstream_commit": "a8fe2937a33f24cce65c1f8c2fc41081bceda721",
+  "frozen_at": "2026-10-11T23:02:00.314931+05:30"
+}

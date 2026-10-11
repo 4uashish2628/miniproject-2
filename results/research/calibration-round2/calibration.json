@@ -1,0 +1,66 @@
+{
+  "selected_candidate": "conservative_5",
+  "baseline_calibration_scores": [
+    0.305,
+    0.16,
+    0.2
+  ],
+  "development_note": "Two last-score hold recipes were added after calibration-only exploration of four initial recipes. The earlier calibration is retained under calibration-round1. No held-out test predictions were used to choose the method.",
+  "recovery": {
+    "enabled": true,
+    "min_confidence": 0.1,
+    "max_gap_frames": 5,
+    "alpha": 0.85,
+    "beta": 0.2,
+    "confidence_decay": 0.75,
+    "max_speed": 0.08,
+    "max_displacement": 0.2,
+    "identity_jump_threshold": 0.15
+  },
+  "calibration_scores": {
+    "hold_3_last_score": [
+      0.29,
+      0.175,
+      0.21
+    ],
+    "hold_5_last_score": [
+      0.27,
+      0.175,
+      0.215
+    ],
+    "hold_5": [
+      0.29,
+      0.175,
+      0.21
+    ],
+    "motion_5": [
+      0.285,
+      0.155,
+      0.195
+    ],
+    "motion_10": [
+      0.28,
+      0.15,
+      0.215
+    ],
+    "conservative_5": [
+      0.3,
+      0.16,
+      0.22
+    ]
+  },
+  "calibration_means": {
+    "hold_3_last_score": 0.22499999999999998,
+    "hold_5_last_score": 0.22,
+    "hold_5": 0.22499999999999998,
+    "motion_5": 0.21166666666666667,
+    "motion_10": 0.215,
+    "conservative_5": 0.22666666666666666
+  },
+  "baseline_threshold": 0.08,
+  "recovery_threshold": 0.085,
+  "design_sha256": "90bf3bcd98f291a19f6f711d622f92e3b2f5cfaba385461e4600e2da257747ba",
+  "checkpoint_sha256": "bec5c9563cc017a6e4739c2255ad76b24a046e445210b8fc965816435229452f",
+  "upstream_commit": "a8fe2937a33f24cce65c1f8c2fc41081bceda721",
+  "frozen_at": "2026-10-11T23:06:47.128559+05:30"
+}

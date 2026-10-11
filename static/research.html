@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>PoseLab · Research comparison</title>
+    <link rel="stylesheet" href="/static/research.css" />
+    <script src="/static/research.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to results</a>
+    <aside class="sidebar">
+      <a href="/" class="brand"
+        ><span class="brand-symbol">P</span>PoseLab<span class="brand-dot"
+          >.</span
+        ></a
+      >
+      <p class="eyebrow side-label">RESEARCH WORKSPACE</p>
+      <nav aria-label="Research navigation">
+        <a class="nav-link active" href="#main"
+          ><span aria-hidden="true">↗</span> Measured comparison</a
+        >
+        <a class="nav-link" href="#all-results"
+          ><span aria-hidden="true">▦</span> Every result</a
+        >
+        <a class="nav-link" href="#pose-example"
+          ><span aria-hidden="true">◎</span> Pose example</a
+        >
+        <a class="nav-link" href="#protocol"
+          ><span aria-hidden="true">≡</span> Experiment record</a
+        >
+      </nav>
+      <a class="back-link" href="/lab">← Open earlier activity lab</a>
+      <div class="side-bottom">
+        <span class="status-dot"></span> Evidence before claims
+        <p>IIIT Dharwad<br />Mini Project II · 2026</p>
+      </div>
+    </aside>
+    <main id="main">
+      <header class="topbar">
+        <span class="eyebrow">HUMAN ACTIVITY RECOGNITION / RESEARCH</span
+        ><span id="run-status" class="status-pill">Results pending</span>
+      </header>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow overline">POSELAB · ROBUSTNESS STUDY</p>
+          <h1 id="page-title">Measured comparison<span>.</span></h1>
+          <p class="intro-copy">
+            What happens when body joints disappear or become noisy?
+          </p>
+        </div>
+        <a
+          id="download-results"
+          class="button secondary"
+          href="/static/research-results.json"
+          download
+          aria-disabled="true"
+          >↓ Download results</a
+        >
+      </section>
+      <div id="load-status" class="notice" role="status" aria-live="polite">
+        Waiting for a completed experiment. This page will display measured
+        results when they are available.
+      </div>
+      <section class="question-card" aria-label="Research question">
+        <div class="question-icon" aria-hidden="true">?</div>
+        <div>
+          <h2>
+            Can pose recovery and prediction rejection make an existing model
+            more reliable?
+          </h2>
+          <p>
+            Compare the same pretrained classifier with and without each
+            addition. Missing-joint and jitter conditions are controlled changes
+            to recorded skeleton data.
+          </p>
+        </div>
+      </section>
+      <section id="comparison" aria-labelledby="comparison-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow overline">01 / THE COMPARISON</p>
+            <h2 id="comparison-title">Same input. Four variants.</h2>
+          </div>
+          <label class="condition-control"
+            >Inspect a condition<select id="condition-select" disabled>
+              <option>Awaiting results</option>
+            </select></label
+          >
+        </div>
+        <p id="condition-description" class="section-copy">
+          All predictions must use the same test examples and checkpoint for a
+          fair comparison.
+        </p>
+        <div class="metric-cards">
+          <article class="metric-card">
+            <span class="eyebrow">BASELINE ACCURACY</span
+            ><strong id="baseline-accuracy">—</strong>
+            <p>The original classifier</p>
+          </article>
+          <article class="metric-card featured">
+            <span class="eyebrow">ACCURACY WITH RECOVERY</span
+            ><strong id="recovery-accuracy">—</strong>
+            <p><span id="accuracy-delta">No measured difference yet</span></p>
+          </article>
+          <article class="metric-card">
+            <span class="eyebrow">COVERAGE WITH REJECTION</span
+            ><strong id="combined-coverage">—</strong>
+            <p id="coverage-detail">Accepted predictions / all examples</p>
+          </article>
+          <article class="metric-card">
+            <span class="eyebrow">TEST EXAMPLES</span
+            ><strong id="test-count">—</strong>
+            <p id="class-count">Same examples for every variant</p>
+          </article>
+        </div>
+        <div class="chart-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Performance across conditions</h3>
+                <p>Original model and joint recovery · no rejection</p>
+              </div>
+              <div class="segmented" role="group" aria-label="Chart metric">
+                <button
+                  type="button"
+                  class="selected"
+                  data-metric="accuracy"
+                  aria-pressed="true"
+                >
+                  Accuracy</button
+                ><button
+                  type="button"
+                  data-metric="macro_f1"
+                  aria-pressed="false"
+                >
+                  Macro F1
+                </button>
+              </div>
+            </div>
+            <div class="legend">
+              <span><i class="swatch baseline"></i>Original model</span
+              ><span><i class="swatch combined"></i>With joint recovery</span>
+            </div>
+            <div id="performance-chart" class="chart-empty">
+              No measured results to plot.
+            </div>
+            <p class="helper">
+              Both methods answer every example. Values are shown as
+              percentages. Rejection is evaluated separately in the coverage
+              panel and the complete table.
+            </p>
+            <div id="paired-recovery" class="definition" hidden>
+              <strong id="paired-title">Recovery difference</strong>
+              <p id="paired-interval"></p>
+              <p id="paired-counts"></p>
+              <p id="paired-scope"></p>
+            </div>
+          </article>
+          <article class="panel coverage-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>The rejection trade-off</h3>
+                <p id="coverage-condition">Selected condition</p>
+              </div>
+            </div>
+            <div id="coverage-chart" class="coverage-empty">
+              Accepted accuracy will be shown alongside the fraction of
+              predictions retained.
+            </div>
+            <div class="definition">
+              <strong>Why both?</strong>
+              <p>
+                Rejecting difficult examples can raise accepted accuracy while
+                answering less often. Higher accepted accuracy alone does not
+                establish an improvement.
+              </p>
+            </div>
+          </article>
+        </div>
+        <div id="variant-descriptions" class="variant-grid"></div>
+      </section>
+      <section id="all-results" aria-labelledby="results-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow overline">02 / EVERY RESULT</p>
+            <h2 id="results-title">The complete comparison</h2>
+          </div>
+          <span class="small-tag">No hidden conditions</span>
+        </div>
+        <p class="section-copy">
+          Recovery and rejection are tested separately and together, so we can
+          see which addition changes the result. Rejected predictions count as
+          errors in all-example accuracy and as misses in macro F1.
+        </p>
+        <div class="panel table-wrap">
+          <table>
+            <caption class="sr-only">
+              Measured results by corruption condition and method. Accuracy and
+              macro F1 include every test example; coverage describes
+              abstention.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Condition / variant</th>
+                <th scope="col">Accuracy</th>
+                <th scope="col">Macro F1</th>
+                <th scope="col">Coverage</th>
+                <th scope="col">Accepted<br />accuracy</th>
+                <th scope="col">Δ accuracy<br />vs baseline</th>
+                <th scope="col">Time / clip</th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <tr>
+                <td colspan="7" class="table-empty">
+                  The experiment has not produced results yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="latency-note" class="helper">
+          Processing time is measured per offline clip. It is not a live-camera
+          frame rate or a reproduction of the paper's streaming-speed benchmark.
+        </p>
+      </section>
+      <section id="pose-example" aria-labelledby="example-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow overline">03 / LOOK AT THE INPUT</p>
+            <h2 id="example-title">Before and after pose recovery</h2>
+          </div>
+          <label id="example-selector-wrap" class="condition-control" hidden
+            >Recorded example<select id="example-select"></select
+          ></label>
+        </div>
+        <div id="example-empty" class="panel empty-state">
+          <span aria-hidden="true">◎</span>
+          <h3>No example attached yet</h3>
+          <p>
+            When an experiment includes a skeleton sequence, this panel shows
+            its corrupted input and recovered joints. There are no simulated
+            results here.
+          </p>
+        </div>
+        <div id="example-content" class="panel example-panel" hidden>
+          <p id="example-description" class="example-description"></p>
+          <div class="pose-grid">
+            <figure>
+              <figcaption>
+                <span>Corrupted input</span
+                ><span id="before-prediction" class="prediction-label">—</span>
+              </figcaption>
+              <svg
+                id="pose-before"
+                viewBox="0 0 440 340"
+                role="img"
+                aria-label="Corrupted recorded skeleton"
+              >
+                <g class="pose-grid-lines"></g>
+                <g class="pose-drawing"></g>
+              </svg>
+            </figure>
+            <figure>
+              <figcaption>
+                <span>After recovery</span
+                ><span id="after-prediction" class="prediction-label">—</span>
+              </figcaption>
+              <svg
+                id="pose-after"
+                viewBox="0 0 440 340"
+                role="img"
+                aria-label="Recovered recorded skeleton"
+              >
+                <g class="pose-grid-lines"></g>
+                <g class="pose-drawing"></g>
+              </svg>
+            </figure>
+          </div>
+          <div class="playback">
+            <button id="play-example" type="button" class="button secondary">
+              Play</button
+            ><label class="sr-only" for="example-frame">Example frame</label
+            ><input
+              id="example-frame"
+              type="range"
+              min="0"
+              max="0"
+              value="0"
+            /><span id="frame-label">Frame 1 / 1</span>
+          </div>
+          <p class="helper">Orange joints were filled from earlier observations. The preview shows the first person slot; the classifier uses both slots.</p>
+          <p id="example-rejection-note" class="helper"></p>
+          <p class="helper">
+            A single example explains the method; it is not evidence of average
+            performance. Both captions show predictions for the entire clip, not
+            the frame currently displayed.
+          </p>
+        </div>
+      </section>
+      <section id="protocol" aria-labelledby="protocol-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow overline">04 / THE EXPERIMENT RECORD</p>
+            <h2 id="protocol-title">Make the result traceable</h2>
+          </div>
+        </div>
+        <div class="protocol-grid">
+          <article class="panel">
+            <h3>What was evaluated</h3>
+            <dl id="protocol-details" class="metadata">
+              <div>
+                <dt>Experiment</dt>
+                <dd>Pending</dd>
+              </div>
+            </dl>
+          </article>
+          <article class="panel">
+            <h3>Scope and limitations</h3>
+            <p id="subset-limitation">
+              A subset experiment is not a full reproduction of the paper.
+              Generalization and live-camera performance require their own
+              evaluation.
+            </p>
+            <ul id="experiment-notes" class="notes">
+              <li>No measured results are loaded.</li>
+            </ul>
+            <div class="definition">
+              <strong>Reading the scores</strong>
+              <p>
+                Accuracy: correct / all examples. Macro F1: equal weight for
+                each evaluated class. Coverage: accepted / all examples.
+                Accepted accuracy: correct / accepted examples; undefined if
+                none are accepted.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="paper-card" aria-labelledby="paper-title">
+        <div>
+          <p class="eyebrow">THE BASE PAPER</p>
+          <h2 id="paper-title">
+            Continual spatio-temporal graph convolutional networks
+          </h2>
+          <p>
+            Lukas Hedegaard, Negar Heidari &amp; Alexandros Iosifidis<br />Pattern
+            Recognition · Volume 140 · 2023 · Article 109528
+          </p>
+        </div>
+        <div class="paper-links">
+          <a
+            href="https://doi.org/10.1016/j.patcog.2023.109528"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Read the paper ↗</a
+          ><a
+            href="https://github.com/LukasHedegaard/continual-skeletons"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Official repository ↗</a
+          >
+        </div>
+      </section>
+      <section class="paper-card" aria-label="Project deliverables">
+        <div><p class="eyebrow">TAKE IT TO YOUR PRESENTATION</p><h2>Report, slides and measured evidence</h2><p>The report includes every condition, confidence intervals and limitations.</p></div>
+        <div class="paper-links"><a href="/research/report" target="_blank">Open full report ↗</a><a href="/research/download/report">Download PDF report ↓</a><a href="/research/download/slides">Download presentation ↓</a></div>
+      </section>
+      <footer>
+        <span>PoseLab / Human Activity Recognition</span
+        ><span id="updated-at">Experiment date pending</span>
+      </footer>
+    </main>
+  </body>
+</html>

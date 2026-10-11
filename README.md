@@ -3,9 +3,62 @@
 **Human Activity Recognition using Pose Estimation**  
 Mini Project II · Indian Institute of Information Technology Dharwad · Aug–Nov 2026
 
-PoseLab is a local webcam/video application for six controlled activities: standing, sitting, marching in place, squats, jumping jacks, and waving. It uses Google's pretrained MediaPipe Pose Landmarker to locate body joints, then an explainable feature pipeline and a trainable Random Forest to recognize activities.
+The primary project is now **Robust Human Activity Recognition using Pose Estimation and Missing-Joint Recovery**, an experimental extension of **Continual Spatio-Temporal Graph Convolutional Networks**, *Pattern Recognition* 140 (2023), 109528, by Hedegaard, Heidari and Iosifidis. [Published paper](https://doi.org/10.1016/j.patcog.2023.109528) · [Official implementation](https://github.com/LukasHedegaard/continual-skeletons) · [Q1 journal evidence: SCImago/SJR 2024](https://www.scimagojr.com/journalvalue.php?area=1700&category=1707&ord=desc&order=item).
 
-The editable [report draft](deliverables/PoseLab_Project_Report_Draft.docx), [presentation](deliverables/PoseLab_Presentation_Draft.pptx), and [viva guide](docs/VIVA_AND_DEMO.md) are included. Real participant results remain pending.
+We reuse the authors' 400-class Kinetics checkpoint and original graph-network definitions. Our extension adds bounded causal recovery of missing pose joints, a conservative person-slot reset, and calibration-based rejection. The comparison uses **600 real public Kinetics-skeleton clips: 200 for calibration and 400 for extension evaluation**, with identical controlled corruptions for every variant. This is a pilot using the dataset's official validation partition, not a reproduction of the full paper's benchmark or a new state-of-the-art claim.
+
+**Open the research dashboard:** start `python run.py` and visit **http://127.0.0.1:8765/**. Saved measured results can be viewed without downloading the research model or dataset.
+
+- [Measured results and limitations](docs/RESEARCH_RESULTS.md)
+- [Standalone results report](results/research/report.html) · [PDF report](output/pdf/PoseLab_Research_Results.pdf)
+- [Research presentation](deliverables/PoseLab_Research_Presentation.pptx)
+- [Research explanation and viva preparation](docs/RESEARCH_VIVA.md)
+- [Per-clip predictions](results/research/predictions.csv), [measured JSON](results/research/comparison.json), [sample provenance](results/research/data-manifest.json)
+- [Reproducible Colab notebook](notebooks/Research_Comparison.ipynb) · [Open in Colab](https://colab.research.google.com/github/4uashish2628/miniproject-2/blob/main/notebooks/Research_Comparison.ipynb)
+
+### Measured results
+
+All-input accuracy on the same **400 test clips**, with all 400 classifier outputs retained. Repair settings were chosen using 200 different calibration clips. These are our measured pilot scores, not the paper's published full-dataset scores.
+
+| Condition | Original model | With our recovery | Difference |
+| --- | ---: | ---: | ---: |
+| Original poses | 28.75% | 29.00% | +0.25 pp |
+| Short joint gaps (25%, 5 frames) | 11.50% | 15.25% | +3.75 pp |
+| Short limb gaps (25%, 5 frames) | 15.25% | 18.50% | +3.25 pp |
+| Long joint gaps (25%, 15 frames) | 14.75% | 15.00% | +0.25 pp |
+| Coordinate noise (std. 0.02) | 10.25% | 11.75% | +1.50 pp |
+
+The paired 95% intervals for short joint and limb gaps are **+1.50 to +6.25 pp** and **+0.75 to +5.75 pp**. The other intervals include zero. Recovery adds processing cost (about 13 ms per 300-frame clip in the short-gap tests); this is not a streaming FPS measurement. Controlled masking of real poses does not establish robustness to physical occlusion in a new webcam scene. All regressions, rejection coverage and per-clip predictions are retained in the report.
+
+![Measured comparison dashboard](deliverables/PoseLab_Research_Dashboard.png)
+
+### Reproduce the paper-based experiment
+
+Use Python 3.12. From this project directory, with a virtual environment active:
+
+```sh
+python -m pip install -r requirements-research.txt
+python scripts/setup_research.py
+python scripts/research_data.py
+python -m research.benchmark --phase all
+python scripts/render_research_report.py
+python run.py
+```
+
+The setup clones the exact upstream commit into `.build/continual-skeletons` and verifies the authors' checkpoint hash. The data downloader retrieves only the chosen archive members (about 52 MB transfer, about 98 MB raw selected JSON in this pilot), rather than the complete 7.47 GB archive. CPU, Mac GPU and CUDA are supported by the runner; Colab GPU availability depends on the session. Use `--device cpu` when necessary. Results are overwritten by an explicit rerun; copy `results/research` first if retaining multiple runs.
+
+The published protocol uses the default 200 calibration / 400 test clips; keep these counts when reproducing this report. For calibration and evaluation as separate steps, keep the same device and batch size:
+
+```sh
+python -m research.benchmark --phase calibrate --device cpu --batch-size 2
+python -m research.benchmark --phase evaluate --device cpu --batch-size 2
+```
+
+The runner freezes configuration and implementation hashes before evaluation and checks that calibration/test IDs are disjoint. The inference adapter preserves the authors' model method bodies while bypassing their legacy training framework. It checks clip/continual execution equivalence numerically. Downloaded upstream source, weights and raw data stay outside the published source tree; fetch them with the provided scripts.
+
+### Earlier six-activity prototype
+
+The original MediaPipe/Random Forest activity lab remains available at **http://127.0.0.1:8765/lab**. It is a separate prototype: its webcam predictions do not use the new CoST-GCN experiment, and its simulated demos are not research results. The old [report draft](deliverables/PoseLab_Project_Report_Draft.docx), [slides](deliverables/PoseLab_Presentation_Draft.pptx), and [viva guide](docs/VIVA_AND_DEMO.md) describe that earlier version and are superseded by the research notes linked above. New webcam integration and real physical-occlusion validation remain future work.
 
 To get the project from GitHub:
 
@@ -16,7 +69,7 @@ cd miniproject-2
 
 Then follow the fresh-installation instructions for your operating system below.
 
-## Start here
+## Earlier prototype: setup and use
 
 The software, simulated demo, collection tool, training/evaluation pipeline, report draft, slides and viva guide are included. **A trained classifier on real participants and real-world accuracy results are not included yet.** Collect your recordings and run the experiment to obtain them. The rule baseline works immediately. Simulated skeletons only demonstrate software behavior.
 
@@ -27,7 +80,7 @@ cd /Users/ashishsingh/Desktop/miniproject
 .venv/bin/python run.py
 ```
 
-Open **http://127.0.0.1:8765** in Chrome or Edge. If the server is already running, just open the link. To use another port: `python run.py --port 8766`.
+Open **http://127.0.0.1:8765/lab** in Chrome or Edge. If the server is already running, just open the link. To use another port: `python run.py --port 8766`.
 
 ### Fresh installation on Windows
 

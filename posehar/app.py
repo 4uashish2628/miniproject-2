@@ -57,7 +57,37 @@ def active_model():
 
 @app.get("/")
 def home():
+    return FileResponse(ROOT / "static" / "research.html")
+
+
+@app.get("/lab")
+def activity_lab():
     return FileResponse(ROOT / "static" / "index.html")
+
+
+@app.get("/research")
+def research_comparison():
+    return FileResponse(ROOT / "static" / "research.html")
+
+
+@app.get("/research/report")
+def research_report():
+    path = ROOT / "results" / "research" / "report.html"
+    if not path.is_file():
+        raise HTTPException(404, "The measured report has not been generated yet.")
+    return FileResponse(path)
+
+
+@app.get("/research/download/{kind}")
+def research_download(kind: str):
+    artifacts = {
+        "report": ROOT / "output" / "pdf" / "PoseLab_Research_Results.pdf",
+        "slides": ROOT / "deliverables" / "PoseLab_Research_Presentation.pptx",
+    }
+    path = artifacts.get(kind)
+    if path is None or not path.is_file():
+        raise HTTPException(404, "This research artifact is not available.")
+    return FileResponse(path, filename=path.name)
 
 
 @app.get("/api/status")
