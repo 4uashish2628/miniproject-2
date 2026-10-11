@@ -17,6 +17,7 @@ We reuse the authors' 400-class Kinetics checkpoint and original graph-network d
 - [Standalone results report](results/research/report.html) · [PDF report](output/pdf/PoseLab_Research_Results.pdf)
 - [Research presentation](deliverables/PoseLab_Research_Presentation.pptx)
 - [Research explanation and viva preparation](docs/RESEARCH_VIVA.md)
+- [Complete presentation study guide](output/pdf/PoseLab_Presentation_Study_Guide.pdf) - 18 pages: concepts, paper reading map, eight-slide speaking script, demo, code tour, 27 viva answers and a final revision sheet.
 - [Per-clip predictions](results/research/predictions.csv), [measured JSON](results/research/comparison.json), [sample provenance](results/research/data-manifest.json)
 - [Reproducible Colab notebook](notebooks/Research_Comparison.ipynb) · [Open in Colab](https://colab.research.google.com/github/4uashish2628/miniproject-2/blob/main/notebooks/Research_Comparison.ipynb)
 
